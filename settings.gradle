@@ -1,0 +1,3 @@
+rootProject.name = "GradientTextView"
+include ':app'
+include ':library'

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <com.flyjingfish.gradienttextviewlib.GradientColorStrokeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Hello World!"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:gradient_stroke_endColor="@color/white"
+        app:gradient_stroke_startColor="@color/purple_700"
+        app:gradient_stroke_strokeWidth="6dp" />
+
+    <com.flyjingfish.gradienttextviewlib.GradientColorStrokeTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Hello World!"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:gradient_stroke_endColor="@color/white"
+        app:gradient_stroke_orientation="horizontal"
+        app:gradient_stroke_startColor="@color/purple_700"
+        app:gradient_stroke_strokeWidth="6dp" />
+
+    <com.flyjingfish.gradienttextviewlib.GradientColorTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Hello World!"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:gradient_endColor="@color/white"
+        app:gradient_startColor="@color/purple_700" />
+
+    <com.flyjingfish.gradienttextviewlib.GradientColorTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Hello World!"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:gradient_endColor="@color/white"
+        app:gradient_orientation="horizontal"
+        app:gradient_startColor="@color/purple_700" />
+
+</LinearLayout>

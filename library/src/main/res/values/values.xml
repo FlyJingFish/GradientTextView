@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="GradientTextView">
+        <attr name="gradient_startColor" format="reference" />
+        <attr name="gradient_centerColor" format="reference" />
+        <attr name="gradient_endColor" format="reference" />
+        <attr name="gradient_orientation" >
+            <enum name="vertical" value="0x01" />
+            <enum name="horizontal" value="0x02" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="GradientStrokeTextView"  >
+        <attr name="gradient_stroke_startColor" format="reference" />
+        <attr name="gradient_stroke_centerColor" format="reference" />
+        <attr name="gradient_stroke_endColor" format="reference" />
+        <attr name="gradient_stroke_orientation" >
+            <enum name="vertical" value="0x01" />
+            <enum name="horizontal" value="0x02" />
+        </attr>
+        <attr name="gradient_stroke_strokeWidth" format="dimension" />
+    </declare-styleable>
+</resources>
