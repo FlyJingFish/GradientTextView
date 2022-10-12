@@ -7,48 +7,56 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <com.flyjingfish.gradienttextviewlib.GradientColorStrokeTextView
+    <com.flyjingfish.gradienttextviewlib.GradientTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="Hello World!"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="30sp"
+        app:gradient_angle="0"
+        app:gradient_endColor="@color/purple_200"
+        app:gradient_startColor="@color/teal_200" />
+
+    <com.flyjingfish.gradienttextviewlib.GradientTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="Hello World!"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:gradient_angle="270"
+        app:gradient_endColor="@color/purple_200"
+        app:gradient_startColor="@color/teal_200" />
+
+    <com.flyjingfish.gradienttextviewlib.GradientTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text=" Hello World! "
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        app:gradient_angle="0"
+        app:gradient_endColor="@color/white"
+        app:gradient_startColor="@color/teal_200"
+        app:gradient_stroke_angle="0"
+        app:gradient_stroke_strokeWidth="6dp"
+        app:gradient_stroke_textColor="@color/purple_700" />
+
+    <com.flyjingfish.gradienttextviewlib.GradientTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text=" Hello World! "
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="italic|bold"
+        app:gradient_angle="270"
+        app:gradient_endColor="@color/white"
+        app:gradient_startColor="@color/teal_200"
+        app:gradient_stroke_angle="0"
         app:gradient_stroke_endColor="@color/white"
         app:gradient_stroke_startColor="@color/purple_700"
         app:gradient_stroke_strokeWidth="6dp" />
-
-    <com.flyjingfish.gradienttextviewlib.GradientColorStrokeTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Hello World!"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:gradient_stroke_endColor="@color/white"
-        app:gradient_stroke_orientation="horizontal"
-        app:gradient_stroke_startColor="@color/purple_700"
-        app:gradient_stroke_strokeWidth="6dp" />
-
-    <com.flyjingfish.gradienttextviewlib.GradientColorTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Hello World!"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:gradient_endColor="@color/white"
-        app:gradient_startColor="@color/purple_700" />
-
-    <com.flyjingfish.gradienttextviewlib.GradientColorTextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="Hello World!"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:gradient_endColor="@color/white"
-        app:gradient_orientation="horizontal"
-        app:gradient_startColor="@color/purple_700" />
 
 </LinearLayout>
