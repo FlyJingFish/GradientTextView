@@ -33,6 +33,7 @@ public class GradientTextView extends AppCompatTextView {
     private float angle;
     private boolean rtlAngle;
     private boolean isRtl;
+    private int strokeTextColor;
 
     public GradientTextView(Context context) {
         this(context, null);
@@ -54,7 +55,7 @@ public class GradientTextView extends AppCompatTextView {
         int startStrokeColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_startColor, 0);
         int centerStrokeColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_centerColor, 0);
         int endStrokeColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_endColor, 0);
-        int strokeTextColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_textColor, getCurrentTextColor());
+        strokeTextColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_textColor, getCurrentTextColor());
         strokeAngle = typedArray.getFloat(R.styleable.GradientTextView_gradient_stroke_angle, 0);
         strokeRtlAngle = typedArray.getBoolean(R.styleable.GradientTextView_gradient_stroke_rtl_angle, false);
 
@@ -281,6 +282,16 @@ public class GradientTextView extends AppCompatTextView {
 
     public void setRtlAngle(boolean rtlAngle) {
         this.rtlAngle = rtlAngle;
+        invalidate();
+    }
+
+    public int getStrokeTextColor() {
+        return strokeTextColor;
+    }
+
+    public void setStrokeTextColor(int strokeTextColor) {
+        this.strokeTextColor = strokeTextColor;
+        backGroundText.setTextColor(strokeTextColor);
         invalidate();
     }
 }
