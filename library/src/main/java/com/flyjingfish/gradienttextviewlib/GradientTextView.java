@@ -223,6 +223,9 @@ public class GradientTextView extends AppCompatTextView {
     public void setGradientStrokeColors(int[] gradientStrokeColors) {
         this.gradientStrokeColors = gradientStrokeColors;
         gradientStrokeColor = gradientStrokeColors != null;
+        if (gradientStrokePositions != null && gradientStrokeColors != null && gradientStrokeColors.length != gradientStrokePositions.length){
+            this.gradientStrokePositions = null;
+        }
         invalidate();
     }
 
@@ -242,6 +245,9 @@ public class GradientTextView extends AppCompatTextView {
 
     public void setGradientColors(int[] gradientColors) {
         this.gradientColors = gradientColors;
+        if (gradientPositions != null && gradientColors != null && gradientColors.length != gradientPositions.length){
+            this.gradientPositions = null;
+        }
         invalidate();
     }
 
