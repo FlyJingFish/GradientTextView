@@ -122,8 +122,8 @@ public class GradientTextView extends AppCompatTextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        TextPaint backGroundTextPaint = backGroundText.getPaint();
         if (gradientStrokeColor){
-            TextPaint backGroundTextPaint = backGroundText.getPaint();
             float currentAngle = strokeAngle;
             if (strokeRtlAngle && isRtl){
                 currentAngle = - strokeAngle;
@@ -132,6 +132,8 @@ public class GradientTextView extends AppCompatTextView {
 
             @SuppressLint("DrawAllocation") LinearGradient linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientStrokeColors, gradientStrokePositions, Shader.TileMode.CLAMP);
             backGroundTextPaint.setShader(linearGradient);
+        }else {
+            backGroundTextPaint.setShader(null);
         }
         backGroundText.draw(canvas);
 
@@ -145,6 +147,8 @@ public class GradientTextView extends AppCompatTextView {
 
             @SuppressLint("DrawAllocation") LinearGradient linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientColors, gradientPositions, Shader.TileMode.CLAMP);
             getPaint().setShader(linearGradient);
+        }else {
+            getPaint().setShader(null);
         }
         super.onDraw(canvas);
 
@@ -207,6 +211,8 @@ public class GradientTextView extends AppCompatTextView {
 
     public void setStrokeWidth(int strokeWidth) {
         this.strokeWidth = strokeWidth;
+        TextPaint textPaint = backGroundText.getPaint();
+        textPaint.setStrokeWidth(strokeWidth);
         invalidate();
     }
 
@@ -216,7 +222,7 @@ public class GradientTextView extends AppCompatTextView {
 
     public void setGradientStrokeColors(int[] gradientStrokeColors) {
         this.gradientStrokeColors = gradientStrokeColors;
-        gradientStrokeColor = true;
+        gradientStrokeColor = gradientStrokeColors != null;
         invalidate();
     }
 
@@ -245,7 +251,7 @@ public class GradientTextView extends AppCompatTextView {
 
     public void setGradientPositions(float[] gradientPositions) {
         this.gradientPositions = gradientPositions;
-        gradientColor = true;
+        gradientColor = gradientPositions != null;
         invalidate();
     }
 
@@ -292,6 +298,7 @@ public class GradientTextView extends AppCompatTextView {
     public void setStrokeTextColor(int strokeTextColor) {
         this.strokeTextColor = strokeTextColor;
         backGroundText.setTextColor(strokeTextColor);
+        gradientStrokeColor = false;
         invalidate();
     }
 }
