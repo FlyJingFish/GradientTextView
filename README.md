@@ -28,7 +28,7 @@
 
 ```gradle
     dependencies {
-        implementation 'com.github.FlyJingFish:GradientTextView:1.0.5'
+        implementation 'com.github.FlyJingFish:GradientTextView:1.0.6'
     }
 ```
 ## 第三步，使用说明
