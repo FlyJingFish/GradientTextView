@@ -8,12 +8,14 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.text.TextUtilsCompat;
 
@@ -95,6 +97,10 @@ public class GradientTextView extends AppCompatTextView {
         backGroundText.setTextColor(strokeTextColor);
         backGroundText.setText(getText());
         backGroundText.setGravity(getGravity());
+
+        initCompoundDrawables();
+
+        backGroundText.setCompoundDrawablePadding(getCompoundDrawablePadding());
     }
 
 
@@ -155,8 +161,9 @@ public class GradientTextView extends AppCompatTextView {
     }
 
     protected float[] getAngleXY(float currentAngle){
-        int height = getHeight();
-        int width = getWidth();
+        int[] paddings = getCompoundDrawablesPaddings();
+        int height = getHeight() - paddings[3] - paddings[1];
+        int width = getWidth() - paddings[2] - paddings[0];
 
         float angle = currentAngle % 360;
         if (angle < 0) {
@@ -177,8 +184,7 @@ public class GradientTextView extends AppCompatTextView {
             y0 = height / 2f * percent + height / 2f;
         } else if (angle <= 180) {
             float percent = (angle - 135) / 45;
-            x0 = width / 2f + width / 2f * percent;
-            ;
+            x0 = width / 2f + width / 2f * (1-percent);
             y0 = height;
         } else if (angle <= 225) {
             float percent = (angle - 180) / 45;
@@ -195,9 +201,9 @@ public class GradientTextView extends AppCompatTextView {
         } else {
             float percent = (angle - 315) / 45;
             x0 = width / 2f * percent;
-            ;
             y0 = 0;
         }
+
         x1 = width - x0;
         y1 = height - y0;
 
@@ -306,5 +312,144 @@ public class GradientTextView extends AppCompatTextView {
         backGroundText.setTextColor(strokeTextColor);
         gradientStrokeColor = false;
         invalidate();
+    }
+
+    @Override
+    public void setText(CharSequence text, BufferType type) {
+        if (backGroundText != null){
+            backGroundText.setText(text, type);
+        }
+        super.setText(text, type);
+    }
+
+    @Override
+    public void setCompoundDrawables(@Nullable Drawable left, @Nullable Drawable top, @Nullable Drawable right, @Nullable Drawable bottom) {
+        super.setCompoundDrawables(left, top, right, bottom);
+        initCompoundDrawables();
+    }
+
+    @Override
+    public void setCompoundDrawablesRelative(@Nullable Drawable start, @Nullable Drawable top, @Nullable Drawable end, @Nullable Drawable bottom) {
+        super.setCompoundDrawablesRelative(start, top, end, bottom);
+        initCompoundDrawables();
+    }
+
+    @Override
+    public void setCompoundDrawablePadding(int pad) {
+        super.setCompoundDrawablePadding(pad);
+        if (backGroundText != null){
+            backGroundText.setCompoundDrawablePadding(pad);
+        }
+    }
+
+    private void initCompoundDrawables(){
+        if (backGroundText == null){
+            return;
+        }
+        Drawable[] drawablesRelative = getCompoundDrawablesRelative();
+
+        Drawable[] drawables = getCompoundDrawables();
+
+        Drawable drawableLeft;
+        Drawable drawableRight;
+        Drawable drawableTop = null;
+        Drawable drawableBottom = null;
+        if (isRtl){
+            if (drawablesRelative[0] != null || drawablesRelative[2] != null){
+                drawableLeft = drawablesRelative[2];
+                drawableRight = drawablesRelative[0];
+            }else {
+                drawableLeft = drawables[0];
+                drawableRight = drawables[2];
+            }
+
+        }else {
+            if (drawablesRelative[0] != null || drawablesRelative[2] != null){
+                drawableLeft = drawablesRelative[0];
+                drawableRight = drawablesRelative[2];
+            }else {
+                drawableLeft = drawables[0];
+                drawableRight = drawables[2];
+            }
+
+        }
+
+        if (drawablesRelative[1] != null){
+            drawableTop = drawablesRelative[1];
+        }else if (drawables[1] != null){
+            drawableTop = drawables[1];
+        }
+
+        if (drawablesRelative[3] != null){
+            drawableBottom = drawablesRelative[3];
+        }else if (drawables[3] != null){
+            drawableBottom = drawables[3];
+        }
+
+        backGroundText.setCompoundDrawables(drawableLeft,drawableTop,drawableRight,drawableBottom);
+    }
+
+    private int[] getCompoundDrawablesPaddings(){
+        Drawable[] drawablesRelative = getCompoundDrawablesRelative();
+
+        Drawable[] drawables = getCompoundDrawables();
+
+        Drawable drawableLeft;
+        Drawable drawableRight;
+        Drawable drawableTop = null;
+        Drawable drawableBottom = null;
+        if (isRtl){
+            if (drawablesRelative[0] != null || drawablesRelative[2] != null){
+                drawableLeft = drawablesRelative[2];
+                drawableRight = drawablesRelative[0];
+            }else {
+                drawableLeft = drawables[0];
+                drawableRight = drawables[2];
+            }
+
+        }else {
+            if (drawablesRelative[0] != null || drawablesRelative[2] != null){
+                drawableLeft = drawablesRelative[0];
+                drawableRight = drawablesRelative[2];
+            }else {
+                drawableLeft = drawables[0];
+                drawableRight = drawables[2];
+            }
+
+        }
+
+        if (drawablesRelative[1] != null){
+            drawableTop = drawablesRelative[1];
+        }else if (drawables[1] != null){
+            drawableTop = drawables[1];
+        }
+
+        if (drawablesRelative[3] != null){
+            drawableBottom = drawablesRelative[3];
+        }else if (drawables[3] != null){
+            drawableBottom = drawables[3];
+        }
+
+        int[] paddings = new int[4];
+        paddings[0] = ViewUtils.getViewPaddingLeft(this);
+        paddings[1] = getPaddingTop();
+        paddings[2] = ViewUtils.getViewPaddingRight(this);
+        paddings[3] = getPaddingBottom();
+        int drawablePadding = getCompoundDrawablePadding();
+        if (drawableLeft != null){
+            paddings[0] = drawableLeft.getMinimumWidth()+paddings[0]+drawablePadding;
+        }
+        if (drawableTop != null){
+            paddings[1] = drawableTop.getMinimumWidth()+paddings[1]+drawablePadding;
+        }
+        if (drawableRight != null){
+            paddings[2] = drawableRight.getMinimumWidth()+paddings[2]+drawablePadding;
+        }
+
+        if (drawableBottom != null){
+            paddings[3] = drawableBottom.getMinimumWidth()+paddings[3]+drawablePadding;
+        }
+
+        return paddings;
     }
 }

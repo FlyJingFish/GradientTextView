@@ -28,7 +28,7 @@
 
 ```gradle
     dependencies {
-        implementation 'com.github.FlyJingFish:GradientTextView:1.0.6'
+        implementation 'com.github.FlyJingFish:GradientTextView:1.0.7'
     }
 ```
 ## 第三步，使用说明
@@ -83,20 +83,20 @@
 
 ### 属性一览
 
-|attr|format|       description       |
-|---|:---:|:-----------------------:|
-|gradient_startColor|color|      前景字体渐变颜色开始颜色       |
-|gradient_centerColor|color|      前景字体渐变颜色中心颜色       |
-|gradient_endColor|color|      前景字体渐变颜色结束颜色       |
-|gradient_angle|float|      前景字体渐变颜色开始角度       |
-|gradient_rtl_angle|boolean| 前景字体渐变颜色开始角度是否支持镜像Rtl适配 |
-|gradient_stroke_startColor|color|      字体粗边渐变颜色开始颜色       |
-|gradient_stroke_centerColor|color|      字体粗边渐变颜色中心颜色       |
-|gradient_stroke_endColor|color|      字体粗边渐变颜色结束颜色       |
-|gradient_stroke_angle|float|      字体粗边渐变颜色开始角度       |
-|gradient_stroke_rtl_angle|boolean| 字体粗边渐变颜色开始角度是否支持镜像Rtl适配 |
-|gradient_stroke_strokeWidth|dimension|        字体粗边画笔宽度         |
-|gradient_stroke_textColor|color|  字体粗边颜色（设置渐变色之后此属性无效）   |
+| attr                        |  format   |       description       |
+|-----------------------------|:---------:|:-----------------------:|
+| gradient_startColor         |   color   |      前景字体渐变颜色开始颜色       |
+| gradient_centerColor        |   color   |      前景字体渐变颜色中心颜色       |
+| gradient_endColor           |   color   |      前景字体渐变颜色结束颜色       |
+| gradient_angle              |   float   |      前景字体渐变颜色开始角度       |
+| gradient_rtl_angle          |  boolean  | 前景字体渐变颜色开始角度是否支持镜像Rtl适配 |
+| gradient_stroke_startColor  |   color   |      字体粗边渐变颜色开始颜色       |
+| gradient_stroke_centerColor |   color   |      字体粗边渐变颜色中心颜色       |
+| gradient_stroke_endColor    |   color   |      字体粗边渐变颜色结束颜色       |
+| gradient_stroke_angle       |   float   |      字体粗边渐变颜色开始角度       |
+| gradient_stroke_rtl_angle   |  boolean  | 字体粗边渐变颜色开始角度是否支持镜像Rtl适配 |
+| gradient_stroke_strokeWidth | dimension |        字体粗边画笔宽度         |
+| gradient_stroke_textColor   |   color   |  字体粗边颜色（设置渐变色之后此属性无效）   |
 
 ### 常见问题
 
