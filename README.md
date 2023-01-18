@@ -2,6 +2,11 @@
 ## 支持字体渐变色，支持加渐变色粗边
 
 [![](https://jitpack.io/v/FlyJingFish/GradientTextView.svg)](https://jitpack.io/#FlyJingFish/GradientTextView)
+[![GitHub stars](https://img.shields.io/github/stars/FlyJingFish/GradientTextView.svg)](https://github.com/FlyJingFish/GradientTextView/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/FlyJingFish/GradientTextView.svg)](https://github.com/FlyJingFish/GradientTextView/network)
+[![GitHub issues](https://img.shields.io/github/issues/FlyJingFish/GradientTextView.svg)](https://github.com/FlyJingFish/GradientTextView/issues)
+[![GitHub license](https://img.shields.io/github/license/FlyJingFish/GradientTextView.svg)](https://github.com/FlyJingFish/GradientTextView/blob/master/LICENSE)
+
 
 
 <img src="https://github.com/FlyJingFish/GradientTextView/blob/master/screenshot/Screenshot_20221012_141234.jpg" width="405px" height="842px" alt="show" />
