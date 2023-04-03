@@ -4,11 +4,11 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.text.Layout;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
@@ -19,9 +19,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.text.TextUtilsCompat;
 
+import com.flyjingfish.perfecttextviewlib.PerfectTextView;
+
 import java.util.Locale;
 
-public class GradientTextView extends AppCompatTextView {
+public class GradientTextView extends PerfectTextView {
 
     private final TextView backGroundText;
     private int strokeWidth;
@@ -161,9 +163,9 @@ public class GradientTextView extends AppCompatTextView {
     }
 
     protected float[] getAngleXY(float currentAngle){
-        int[] paddings = getCompoundDrawablesPaddings();
-        int height = getHeight() - paddings[3] - paddings[1];
-        int width = getWidth() - paddings[2] - paddings[0];
+        Layout layout = getLayout();
+        int height = layout.getHeight();
+        int width = layout.getWidth();
 
         float angle = currentAngle % 360;
         if (angle < 0) {
@@ -389,67 +391,4 @@ public class GradientTextView extends AppCompatTextView {
         backGroundText.setCompoundDrawables(drawableLeft,drawableTop,drawableRight,drawableBottom);
     }
 
-    private int[] getCompoundDrawablesPaddings(){
-        Drawable[] drawablesRelative = getCompoundDrawablesRelative();
-
-        Drawable[] drawables = getCompoundDrawables();
-
-        Drawable drawableLeft;
-        Drawable drawableRight;
-        Drawable drawableTop = null;
-        Drawable drawableBottom = null;
-        if (isRtl){
-            if (drawablesRelative[0] != null || drawablesRelative[2] != null){
-                drawableLeft = drawablesRelative[2];
-                drawableRight = drawablesRelative[0];
-            }else {
-                drawableLeft = drawables[0];
-                drawableRight = drawables[2];
-            }
-
-        }else {
-            if (drawablesRelative[0] != null || drawablesRelative[2] != null){
-                drawableLeft = drawablesRelative[0];
-                drawableRight = drawablesRelative[2];
-            }else {
-                drawableLeft = drawables[0];
-                drawableRight = drawables[2];
-            }
-
-        }
-
-        if (drawablesRelative[1] != null){
-            drawableTop = drawablesRelative[1];
-        }else if (drawables[1] != null){
-            drawableTop = drawables[1];
-        }
-
-        if (drawablesRelative[3] != null){
-            drawableBottom = drawablesRelative[3];
-        }else if (drawables[3] != null){
-            drawableBottom = drawables[3];
-        }
-
-        int[] paddings = new int[4];
-        paddings[0] = ViewUtils.getViewPaddingLeft(this);
-        paddings[1] = getPaddingTop();
-        paddings[2] = ViewUtils.getViewPaddingRight(this);
-        paddings[3] = getPaddingBottom();
-        int drawablePadding = getCompoundDrawablePadding();
-        if (drawableLeft != null){
-            paddings[0] = drawableLeft.getMinimumWidth()+paddings[0]+drawablePadding;
-        }
-        if (drawableTop != null){
-            paddings[1] = drawableTop.getMinimumWidth()+paddings[1]+drawablePadding;
-        }
-        if (drawableRight != null){
-            paddings[2] = drawableRight.getMinimumWidth()+paddings[2]+drawablePadding;
-        }
-
-        if (drawableBottom != null){
-            paddings[3] = drawableBottom.getMinimumWidth()+paddings[3]+drawablePadding;
-        }
-
-        return paddings;
-    }
 }

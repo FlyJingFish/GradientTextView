@@ -11,6 +11,11 @@
 <img src="https://github.com/FlyJingFish/GradientTextView/blob/master/screenshot/Screenshot_20221012_141234.jpg" width="405px" height="842px" alt="show" />
 
 ## 特色功能
+
+## 新增继承 [PerfectTextView](https://github.com/FlyJingFish/PerfectTextView)
+
+**继承[PerfectTextView](https://github.com/FlyJingFish/PerfectTextView) 可使用其所有功能，您可前往查看如何使用[点这里查看](https://github.com/FlyJingFish/PerfectTextView)**
+
 1，支持前景字体渐变色，支持设置渐变方向
 
 2，支持设置字体背景粗边，粗边支持渐变色
@@ -32,7 +37,7 @@
 
 ```gradle
     dependencies {
-        implementation 'com.github.FlyJingFish:GradientTextView:1.0.7'
+        implementation 'com.github.FlyJingFish:GradientTextView:1.0.8'
     }
 ```
 ## 第三步，使用说明
