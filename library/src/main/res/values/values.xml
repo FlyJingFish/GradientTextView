@@ -15,5 +15,10 @@
 
         <attr name="gradient_stroke_strokeWidth" format="dimension" />
         <attr name="gradient_stroke_textColor" format="color" />
+        <attr name="gradient_stroke_join" format="enum">
+            <enum name="miter" value="0" />
+            <enum name="round" value="1" />
+            <enum name="bevel" value="2" />
+        </attr>
     </declare-styleable>
 </resources>

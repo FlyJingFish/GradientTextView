@@ -66,6 +66,8 @@ public class GradientTextView extends PerfectTextView {
         int endColor = typedArray.getColor(R.styleable.GradientTextView_gradient_endColor, 0);
         angle = typedArray.getFloat(R.styleable.GradientTextView_gradient_angle, 0);
         rtlAngle = typedArray.getBoolean(R.styleable.GradientTextView_gradient_rtl_angle, false);
+        int strokeJoinInt = typedArray.getInt(R.styleable.GradientTextView_gradient_stroke_join, Paint.Join.ROUND.ordinal());
+
 
         typedArray.recycle();
 
@@ -94,6 +96,13 @@ public class GradientTextView extends PerfectTextView {
         TextPaint textPaint = backGroundText.getPaint();
         textPaint.setStrokeWidth(strokeWidth);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+//        textPaint.setStrokeCap(Paint.Cap.SQUARE);
+        if (strokeJoinInt >=0 && strokeJoinInt<=2){
+            textPaint.setStrokeJoin(Paint.Join.values()[strokeJoinInt]);
+        }else {
+            textPaint.setStrokeJoin(Paint.Join.ROUND);
+        }
+//        textPaint.setStrokeMiter();
         backGroundText.setTextColor(strokeTextColor);
         backGroundText.setText(getText());
         backGroundText.setGravity(getGravity());
