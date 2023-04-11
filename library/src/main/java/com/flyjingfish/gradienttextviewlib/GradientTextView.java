@@ -13,10 +13,8 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.text.TextUtilsCompat;
 
 import com.flyjingfish.perfecttextviewlib.PerfectTextView;
@@ -25,7 +23,7 @@ import java.util.Locale;
 
 public class GradientTextView extends PerfectTextView {
 
-    private final TextView backGroundText;
+    private final PerfectTextView backGroundText;
     private int strokeWidth;
     private int[] gradientStrokeColors;
     private float[] gradientStrokePositions;
@@ -53,7 +51,7 @@ public class GradientTextView extends PerfectTextView {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
             isRtl = TextUtilsCompat.getLayoutDirectionFromLocale(Locale.getDefault()) == LayoutDirection.RTL;
         }
-        backGroundText = new AppCompatTextView(context, attrs, defStyle);
+        backGroundText = new PerfectTextView(context, attrs, defStyle);
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.GradientTextView);
         strokeWidth = typedArray.getDimensionPixelSize(R.styleable.GradientTextView_gradient_stroke_strokeWidth, 0);
         int startStrokeColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_startColor, 0);
@@ -102,7 +100,7 @@ public class GradientTextView extends PerfectTextView {
 
         initCompoundDrawables();
 
-        backGroundText.setCompoundDrawablePadding(getCompoundDrawablePadding());
+
     }
 
 
@@ -389,6 +387,192 @@ public class GradientTextView extends PerfectTextView {
         }
 
         backGroundText.setCompoundDrawables(drawableLeft,drawableTop,drawableRight,drawableBottom);
+        backGroundText.setDrawableStartPadding(getDrawableStartPadding());
+        backGroundText.setDrawableEndPadding(getDrawableEndPadding());
+        backGroundText.setDrawableLeftPadding(getDrawableLeftPadding());
+        backGroundText.setDrawableRightPadding(getDrawableRightPadding());
+        backGroundText.setDrawableTopPadding(getDrawableTopPadding());
+        backGroundText.setDrawableBottomPadding(getDrawableBottomPadding());
     }
 
+    @Override
+    public void setDrawableStart(int drawableStart) {
+        backGroundText.setDrawableStart(drawableStart);
+        super.setDrawableStart(drawableStart);
+    }
+
+    @Override
+    public void setDrawableEnd(int drawableEnd) {
+        backGroundText.setDrawableEnd(drawableEnd);
+        super.setDrawableEnd(drawableEnd);
+    }
+
+    @Override
+    public void setDrawableTop(int drawableTop) {
+        backGroundText.setDrawableTop(drawableTop);
+        super.setDrawableTop(drawableTop);
+    }
+
+    @Override
+    public void setDrawableBottom(int drawableBottom) {
+        backGroundText.setDrawableBottom(drawableBottom);
+        super.setDrawableBottom(drawableBottom);
+    }
+
+    @Override
+    public void setDrawableLeft(int drawableLeft) {
+        backGroundText.setDrawableLeft(drawableLeft);
+        super.setDrawableLeft(drawableLeft);
+    }
+
+    @Override
+    public void setDrawableRight(int drawableRight) {
+        backGroundText.setDrawableRight(drawableRight);
+        super.setDrawableRight(drawableRight);
+    }
+
+    @Override
+    public void setDrawableStart(Drawable drawableStart) {
+        backGroundText.setDrawableStart(drawableStart);
+        super.setDrawableStart(drawableStart);
+    }
+
+    @Override
+    public void setDrawableEnd(Drawable drawableEnd) {
+        backGroundText.setDrawableEnd(drawableEnd);
+        super.setDrawableEnd(drawableEnd);
+    }
+
+    @Override
+    public void setDrawableLeft(Drawable drawableLeft) {
+        backGroundText.setDrawableLeft(drawableLeft);
+        super.setDrawableLeft(drawableLeft);
+    }
+
+    @Override
+    public void setDrawableRight(Drawable drawableRight) {
+        backGroundText.setDrawableRight(drawableRight);
+        super.setDrawableRight(drawableRight);
+    }
+
+    @Override
+    public void setDrawableTop(Drawable drawableTop) {
+        backGroundText.setDrawableTop(drawableTop);
+        super.setDrawableTop(drawableTop);
+    }
+
+    @Override
+    public void setDrawableBottom(Drawable drawableBottom) {
+        backGroundText.setDrawableBottom(drawableBottom);
+        super.setDrawableBottom(drawableBottom);
+    }
+
+
+    @Override
+    public void setSelectedText(CharSequence selectedText) {
+        backGroundText.setSelectedText(selectedText);
+        super.setSelectedText(selectedText);
+    }
+
+    @Override
+    public void setSelectedText(int resid) {
+        backGroundText.setSelectedText(resid);
+        super.setSelectedText(resid);
+    }
+
+    @Override
+    public void setDefaultHint(CharSequence defaultHint) {
+        backGroundText.setDefaultHint(defaultHint);
+        super.setDefaultHint(defaultHint);
+    }
+
+    @Override
+    public void setSelectedHint(CharSequence selectedHint) {
+        backGroundText.setSelectedHint(selectedHint);
+        super.setSelectedHint(selectedHint);
+    }
+
+    @Override
+    public void setDefaultHint(int resid) {
+        backGroundText.setDefaultHint(resid);
+        super.setDefaultHint(resid);
+    }
+
+    @Override
+    public void setSelectedHint(int resid) {
+        backGroundText.setSelectedHint(resid);
+        super.setSelectedHint(resid);
+    }
+
+    @Override
+    public void setDrawableStartWidthHeight(int width, int height) {
+        backGroundText.setDrawableStartWidthHeight(width, height);
+        super.setDrawableStartWidthHeight(width, height);
+    }
+
+    @Override
+    public void setDrawableTopWidthHeight(int width, int height) {
+        backGroundText.setDrawableTopWidthHeight(width, height);
+        super.setDrawableTopWidthHeight(width, height);
+    }
+
+    @Override
+    public void setDrawableEndWidthHeight(int width, int height) {
+        backGroundText.setDrawableEndWidthHeight(width, height);
+        super.setDrawableEndWidthHeight(width, height);
+    }
+
+    @Override
+    public void setDrawableBottomWidthHeight(int width, int height) {
+        backGroundText.setDrawableBottomWidthHeight(width, height);
+        super.setDrawableBottomWidthHeight(width, height);
+    }
+
+    @Override
+    public void setDrawableLeftWidthHeight(int width, int height) {
+        backGroundText.setDrawableLeftWidthHeight(width, height);
+        super.setDrawableLeftWidthHeight(width, height);
+    }
+
+    @Override
+    public void setDrawableRightWidthHeight(int width, int height) {
+        backGroundText.setDrawableRightWidthHeight(width, height);
+        super.setDrawableRightWidthHeight(width, height);
+    }
+
+    @Override
+    public void setDrawableStartPadding(int drawableStartPadding) {
+        backGroundText.setDrawableStartPadding(drawableStartPadding);
+        super.setDrawableStartPadding(drawableStartPadding);
+    }
+
+    @Override
+    public void setDrawableTopPadding(int drawableTopPadding) {
+        backGroundText.setDrawableTopPadding(drawableTopPadding);
+        super.setDrawableTopPadding(drawableTopPadding);
+    }
+
+    @Override
+    public void setDrawableEndPadding(int drawableEndPadding) {
+        backGroundText.setDrawableEndPadding(drawableEndPadding);
+        super.setDrawableEndPadding(drawableEndPadding);
+    }
+
+    @Override
+    public void setDrawableBottomPadding(int drawableBottomPadding) {
+        backGroundText.setDrawableBottomPadding(drawableBottomPadding);
+        super.setDrawableBottomPadding(drawableBottomPadding);
+    }
+
+    @Override
+    public void setDrawableLeftPadding(int drawableLeftPadding) {
+        backGroundText.setDrawableLeftPadding(drawableLeftPadding);
+        super.setDrawableLeftPadding(drawableLeftPadding);
+    }
+
+    @Override
+    public void setDrawableRightPadding(int drawableRightPadding) {
+        backGroundText.setDrawableRightPadding(drawableRightPadding);
+        super.setDrawableRightPadding(drawableRightPadding);
+    }
 }

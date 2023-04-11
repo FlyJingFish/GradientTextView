@@ -9,11 +9,22 @@
 
     <com.flyjingfish.gradienttextviewlib.GradientTextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="28dp"
         android:layout_margin="10dp"
         android:text="Hello World!"
         android:textColor="@color/white"
         android:textSize="30sp"
+        android:paddingHorizontal="10dp"
+        android:drawableStart="@mipmap/ic_launcher_round"
+        android:shadowColor="#14000000"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="3.0"
+        android:drawablePadding="10dp"
+        app:autoSizeMaxTextSize="19sp"
+        app:autoSizeMinTextSize="6dp"
+        app:autoSizeStepGranularity="1sp"
+        app:autoSizeTextType="uniform"
         app:gradient_angle="0"
         app:gradient_endColor="@color/purple_200"
         app:gradient_startColor="@color/teal_200" />
