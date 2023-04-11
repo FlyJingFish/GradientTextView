@@ -96,13 +96,11 @@ public class GradientTextView extends PerfectTextView {
         TextPaint textPaint = backGroundText.getPaint();
         textPaint.setStrokeWidth(strokeWidth);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-//        textPaint.setStrokeCap(Paint.Cap.SQUARE);
         if (strokeJoinInt >=0 && strokeJoinInt<=2){
             textPaint.setStrokeJoin(Paint.Join.values()[strokeJoinInt]);
         }else {
             textPaint.setStrokeJoin(Paint.Join.ROUND);
         }
-//        textPaint.setStrokeMiter();
         backGroundText.setTextColor(strokeTextColor);
         backGroundText.setText(getText());
         backGroundText.setGravity(getGravity());
@@ -583,5 +581,14 @@ public class GradientTextView extends PerfectTextView {
     public void setDrawableRightPadding(int drawableRightPadding) {
         backGroundText.setDrawableRightPadding(drawableRightPadding);
         super.setDrawableRightPadding(drawableRightPadding);
+    }
+
+    /**
+     * 请于{@link android.widget.TextView#setText}之前调用，否则不起效果
+     * @param join 粗边样式
+     */
+    public void setStrokeJoin(Paint.Join join){
+        final TextPaint textPaint = backGroundText.getPaint();
+        textPaint.setStrokeJoin(join);
     }
 }
