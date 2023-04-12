@@ -37,7 +37,7 @@
 
 ```gradle
     dependencies {
-        implementation 'com.github.FlyJingFish:GradientTextView:1.0.9'
+        implementation 'com.github.FlyJingFish:GradientTextView:1.1.0'
     }
 ```
 ## 第三步，使用说明
@@ -108,9 +108,6 @@
 | gradient_stroke_textColor   |   color   |                      字体粗边颜色（设置渐变色之后此属性无效）                      |
 | gradient_stroke_join        |   enum    | 字体粗边样式 round/bevel/miter 具体效果自行尝试（不建议使用miter，因为目前发现部分英文字母出现尖头） |
 
-### 常见问题
-
-1，如果使用粗边可能会存在左右两侧被切除一部分，可在字符串两侧添加空格解决问题
 
 
 # 最后推荐我写的另一个库，轻松实现在应用内点击小图查看大图的动画放大效果

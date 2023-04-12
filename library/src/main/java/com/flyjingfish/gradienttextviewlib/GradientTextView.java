@@ -9,7 +9,9 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.text.Layout;
+import android.text.SpannableString;
 import android.text.TextPaint;
+import android.text.style.LeadingMarginSpan;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 import android.view.ViewGroup;
@@ -107,9 +109,15 @@ public class GradientTextView extends PerfectTextView {
 
         initCompoundDrawables();
 
-
+        CharSequence text = getText();
+        setText(text);
     }
 
+    static SpannableString createIndentedText(CharSequence text, int marginFirstLine, int marginNextLines) {
+        SpannableString result = new SpannableString(text);
+        result.setSpan(new LeadingMarginSpan.Standard(marginFirstLine, marginNextLines), 0, text.length(), 0);
+        return result;
+    }
 
     @Override
     public void setLayoutParams(ViewGroup.LayoutParams params) {
@@ -119,12 +127,25 @@ public class GradientTextView extends PerfectTextView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         CharSequence tt = backGroundText.getText();
         if (tt == null || !tt.equals(this.getText())) {
             backGroundText.setText(getText());
         }
         backGroundText.measure(widthMeasureSpec, heightMeasureSpec);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        if (widthMode == MeasureSpec.AT_MOST && strokeWidth > 0){
+            int measureWidth = getMeasuredWidth();
+            int width = MeasureSpec.getSize(widthMeasureSpec);
+            if (measureWidth < width){
+                int measureHeight = getMeasuredHeight();
+//                int height = MeasureSpec.getSize(heightMeasureSpec);
+                int heightMode = MeasureSpec.getMode(heightMeasureSpec);
+                backGroundText.measure(widthMeasureSpec, heightMeasureSpec);
+                int newWidth = MeasureSpec.makeMeasureSpec(measureWidth+Math.min(strokeWidth/2,width-measureWidth), widthMode);
+                setMeasuredDimension(newWidth,MeasureSpec.makeMeasureSpec(measureHeight, heightMode));
+            }
+        }
     }
 
     @Override
@@ -323,10 +344,11 @@ public class GradientTextView extends PerfectTextView {
 
     @Override
     public void setText(CharSequence text, BufferType type) {
+        SpannableString spannableString = createIndentedText(text, strokeWidth/2, strokeWidth/2);
         if (backGroundText != null){
-            backGroundText.setText(text, type);
+            backGroundText.setText(spannableString, type);
         }
-        super.setText(text, type);
+        super.setText(spannableString, type);
     }
 
     @Override
