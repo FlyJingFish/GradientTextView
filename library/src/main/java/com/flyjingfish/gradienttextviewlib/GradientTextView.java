@@ -113,7 +113,7 @@ public class GradientTextView extends PerfectTextView {
         setText(text);
     }
 
-    static SpannableString createIndentedText(CharSequence text, int marginFirstLine, int marginNextLines) {
+    static CharSequence createIndentedText(CharSequence text, int marginFirstLine, int marginNextLines) {
         SpannableString result = new SpannableString(text);
         result.setSpan(new LeadingMarginSpan.Standard(marginFirstLine, marginNextLines), 0, text.length(), 0);
         return result;
@@ -344,11 +344,13 @@ public class GradientTextView extends PerfectTextView {
 
     @Override
     public void setText(CharSequence text, BufferType type) {
-        SpannableString spannableString = createIndentedText(text, strokeWidth/2, strokeWidth/2);
-        if (backGroundText != null){
-            backGroundText.setText(spannableString, type);
+        if (strokeWidth > 0){
+            text = createIndentedText(text, strokeWidth/2, strokeWidth/2);
         }
-        super.setText(spannableString, type);
+        if (backGroundText != null){
+            backGroundText.setText(text, type);
+        }
+        super.setText(text, type);
     }
 
     @Override
