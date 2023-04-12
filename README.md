@@ -8,7 +8,7 @@
 [![GitHub license](https://img.shields.io/github/license/FlyJingFish/GradientTextView.svg)](https://github.com/FlyJingFish/GradientTextView/blob/master/LICENSE)
 
 
-<img src="https://github.com/FlyJingFish/GradientTextView/blob/master/screenshot/show.png" width="320px" height="413px" alt="show" />
+<img src="https://github.com/FlyJingFish/GradientTextView/blob/master/screenshot/show.png" width="320px" height="420px" alt="show" />
 
 ## 特色功能
 
