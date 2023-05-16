@@ -16,6 +16,7 @@ import android.text.TextPaint;
 import android.text.style.LeadingMarginSpan;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
+import android.util.Log;
 
 import androidx.annotation.ColorInt;
 import androidx.core.text.TextUtilsCompat;
@@ -216,13 +217,11 @@ public class GradientTextView extends PerfectTextView {
     }
     @Override
     protected void onDraw(Canvas canvas) {
-        ColorStateList textColor = getTextColors();
         TextPaint textPaint = getPaint();
         Paint.Style oldStyle = textPaint.getStyle();
         textPaint.setStrokeWidth(strokeWidth);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setStrokeJoin(strokeJoin);
-        setTextColor(strokeTextColor);
         if (gradientStrokeColor){
             float currentAngle = strokeAngle;
             if (strokeRtlAngle && isRtl){
@@ -233,13 +232,11 @@ public class GradientTextView extends PerfectTextView {
             @SuppressLint("DrawAllocation") LinearGradient linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientStrokeColors, gradientStrokePositions, Shader.TileMode.CLAMP);
             textPaint.setShader(linearGradient);
         }else {
-            textPaint.setShader(null);
+            @SuppressLint("DrawAllocation") LinearGradient linearGradient = new LinearGradient(0, 0,getWidth(),getHeight(),  new int[]{strokeTextColor,strokeTextColor}, null, Shader.TileMode.CLAMP);
+            textPaint.setShader(linearGradient);
         }
         super.onDraw(canvas);
         textPaint.setStrokeWidth(0);
-        if (textColor != null){
-            setTextColor(textColor);
-        }
         textPaint.setStyle(oldStyle);
         if (gradientColor){
             float currentAngle = angle;
