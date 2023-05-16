@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
+import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -15,15 +17,20 @@ import android.text.style.LeadingMarginSpan;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
 
+import androidx.annotation.ColorInt;
 import androidx.core.text.TextUtilsCompat;
 
 import com.flyjingfish.perfecttextviewlib.PerfectTextView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class GradientTextView extends PerfectTextView {
 
     private int strokeWidth;
+    private final List<ColorStateList> gradientStrokeColorStates = new ArrayList<>();
+    private final List<ColorStateList> gradientColorStates = new ArrayList<>();
     private int[] gradientStrokeColors;
     private float[] gradientStrokePositions;
     private int[] gradientColors;
@@ -34,7 +41,8 @@ public class GradientTextView extends PerfectTextView {
     private float angle;
     private boolean rtlAngle;
     private boolean isRtl;
-    private int strokeTextColor;
+    private ColorStateList strokeTextColor;
+    private int curStrokeTextColor;
     private Paint.Join strokeJoin;
 
     public GradientTextView(Context context) {
@@ -53,16 +61,16 @@ public class GradientTextView extends PerfectTextView {
         }
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.GradientTextView);
         strokeWidth = typedArray.getDimensionPixelSize(R.styleable.GradientTextView_gradient_stroke_strokeWidth, 0);
-        int startStrokeColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_startColor, 0);
-        int centerStrokeColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_centerColor, 0);
-        int endStrokeColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_endColor, 0);
-        strokeTextColor = typedArray.getColor(R.styleable.GradientTextView_gradient_stroke_textColor, getCurrentTextColor());
+        ColorStateList startStrokeColor = typedArray.getColorStateList(R.styleable.GradientTextView_gradient_stroke_startColor);
+        ColorStateList centerStrokeColor = typedArray.getColorStateList(R.styleable.GradientTextView_gradient_stroke_centerColor);
+        ColorStateList endStrokeColor = typedArray.getColorStateList(R.styleable.GradientTextView_gradient_stroke_endColor);
+        strokeTextColor = typedArray.getColorStateList(R.styleable.GradientTextView_gradient_stroke_textColor);
         strokeAngle = typedArray.getFloat(R.styleable.GradientTextView_gradient_stroke_angle, 0);
         strokeRtlAngle = typedArray.getBoolean(R.styleable.GradientTextView_gradient_stroke_rtl_angle, false);
 
-        int startColor = typedArray.getColor(R.styleable.GradientTextView_gradient_startColor, 0);
-        int centerColor = typedArray.getColor(R.styleable.GradientTextView_gradient_centerColor, 0);
-        int endColor = typedArray.getColor(R.styleable.GradientTextView_gradient_endColor, 0);
+        ColorStateList startColor = typedArray.getColorStateList(R.styleable.GradientTextView_gradient_startColor);
+        ColorStateList centerColor = typedArray.getColorStateList(R.styleable.GradientTextView_gradient_centerColor);
+        ColorStateList endColor = typedArray.getColorStateList(R.styleable.GradientTextView_gradient_endColor);
         angle = typedArray.getFloat(R.styleable.GradientTextView_gradient_angle, 0);
         rtlAngle = typedArray.getBoolean(R.styleable.GradientTextView_gradient_rtl_angle, false);
         int strokeJoinInt = typedArray.getInt(R.styleable.GradientTextView_gradient_stroke_join, Paint.Join.ROUND.ordinal());
@@ -70,28 +78,37 @@ public class GradientTextView extends PerfectTextView {
 
         typedArray.recycle();
 
-        if (startStrokeColor != 0 || centerStrokeColor != 0 || endStrokeColor != 0){
-            if (centerStrokeColor != 0) {
-                gradientStrokeColors = new int[]{startStrokeColor, centerStrokeColor, endStrokeColor};
-            } else {
-                gradientStrokeColors = new int[]{startStrokeColor, endStrokeColor};
-            }
-            gradientStrokeColor = true;
-        }else {
-            gradientStrokeColor = false;
+        if (strokeTextColor == null){
+            strokeTextColor = getTextColors();
+        }
+        if (startStrokeColor != null){
+            gradientStrokeColorStates.add(startStrokeColor);
+        }
+        if (centerStrokeColor != null){
+            gradientStrokeColorStates.add(centerStrokeColor);
+        }
+        if (endStrokeColor != null){
+            gradientStrokeColorStates.add(endStrokeColor);
+        }
+        if (gradientStrokeColorStates.size() == 1){
+            gradientStrokeColorStates.add(ColorStateList.valueOf(Color.TRANSPARENT));
         }
 
-
-        if (startColor != 0 || centerColor != 0 || endColor != 0){
-            if (centerColor != 0) {
-                gradientColors = new int[]{startColor, centerColor, endColor};
-            } else {
-                gradientColors = new int[]{startColor, endColor};
-            }
-            gradientColor = true;
-        }else {
-            gradientColor = false;
+        if (startColor != null){
+            gradientColorStates.add(startColor);
         }
+        if (centerColor != null){
+            gradientColorStates.add(centerColor);
+        }
+        if (endColor != null){
+            gradientColorStates.add(endColor);
+        }
+        if (gradientColorStates.size() == 1){
+            gradientColorStates.add(ColorStateList.valueOf(Color.TRANSPARENT));
+        }
+        gradientStrokeColor = gradientStrokeColorStates.size() > 0;
+        gradientColor = gradientColorStates.size() > 0;
+        updateColors();
         if (strokeJoinInt >=0 && strokeJoinInt<=2){
             strokeJoin = Paint.Join.values()[strokeJoinInt];
         }else {
@@ -124,7 +141,79 @@ public class GradientTextView extends PerfectTextView {
             }
         }
     }
+    @Override
+    protected void drawableStateChanged() {
+        super.drawableStateChanged();
+        updateColors();
+    }
 
+    private void updateColors(){
+        boolean inval = false;
+        final int[] drawableState = getDrawableState();
+        int color = strokeTextColor.getColorForState(drawableState, 0);
+        if (color != curStrokeTextColor) {
+            curStrokeTextColor = color;
+            inval = true;
+        }
+
+        if (gradientStrokeColorStates != null && gradientStrokeColorStates.size() > 0){
+            int[] gradientColors = new int[gradientStrokeColorStates.size()];
+            for (int i = 0; i < gradientStrokeColorStates.size(); i++) {
+                int gradientColor = gradientStrokeColorStates.get(i).getColorForState(drawableState, 0);
+                gradientColors[i] = gradientColor;
+            }
+            if (gradientStrokeColors == null) {
+                gradientStrokeColors = gradientColors;
+                inval = true;
+            } else if (gradientStrokeColors.length != gradientColors.length){
+                gradientStrokeColors = gradientColors;
+                inval = true;
+            } else {
+                boolean equals = true;
+                for (int i = 0; i < gradientStrokeColors.length; i++) {
+                    if (gradientStrokeColors[i] != gradientColors[i]){
+                        equals = false;
+                        break;
+                    }
+                }
+                if (!equals){
+                    gradientStrokeColors = gradientColors;
+                    inval = true;
+                }
+            }
+        }
+
+        if (gradientColorStates != null && gradientColorStates.size() > 0){
+            int[] gradientCls = new int[gradientColorStates.size()];
+            for (int i = 0; i < gradientColorStates.size(); i++) {
+                int gradientColor = gradientColorStates.get(i).getColorForState(drawableState, 0);
+                gradientCls[i] = gradientColor;
+            }
+            if (gradientColors == null) {
+                gradientColors = gradientCls;
+                inval = true;
+            } else if (gradientColors.length != gradientCls.length){
+                gradientColors = gradientCls;
+                inval = true;
+            } else {
+                boolean equals = true;
+                for (int i = 0; i < gradientColors.length; i++) {
+                    if (gradientColors[i] != gradientCls[i]){
+                        equals = false;
+                        break;
+                    }
+                }
+                if (!equals){
+                    gradientColors = gradientCls;
+                    inval = true;
+                }
+            }
+        }
+
+        if (inval){
+            invalidate();
+        }
+    }
     @Override
     protected void onDraw(Canvas canvas) {
         ColorStateList textColor = getTextColors();
@@ -310,13 +399,23 @@ public class GradientTextView extends PerfectTextView {
     }
 
     public int getStrokeTextColor() {
+        return curStrokeTextColor;
+    }
+    public ColorStateList getStrokeTextColors() {
         return strokeTextColor;
     }
 
-    public void setStrokeTextColor(int strokeTextColor) {
+    public void setStrokeTextColor(@ColorInt int strokeTextColor) {
+        setStrokeTextColors(ColorStateList.valueOf(strokeTextColor));
+    }
+
+    public void setStrokeTextColors(ColorStateList strokeTextColor) {
+        if (strokeTextColor == null){
+            return;
+        }
         this.strokeTextColor = strokeTextColor;
         gradientStrokeColor = false;
-        invalidate();
+        updateColors();
     }
 
     @Override

@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="GradientTextView"  >
-        <attr name="gradient_startColor" format="color" />
-        <attr name="gradient_centerColor" format="color" />
-        <attr name="gradient_endColor" format="color" />
+        <attr name="gradient_startColor" format="reference|color" />
+        <attr name="gradient_centerColor" format="reference|color" />
+        <attr name="gradient_endColor" format="reference|color" />
         <attr name="gradient_angle" format="float" />
         <attr name="gradient_rtl_angle" format="boolean" />
 
-        <attr name="gradient_stroke_startColor" format="color" />
-        <attr name="gradient_stroke_centerColor" format="color" />
-        <attr name="gradient_stroke_endColor" format="color" />
+        <attr name="gradient_stroke_startColor" format="reference|color" />
+        <attr name="gradient_stroke_centerColor" format="reference|color" />
+        <attr name="gradient_stroke_endColor" format="reference|color" />
         <attr name="gradient_stroke_angle" format="float" />
         <attr name="gradient_stroke_rtl_angle" format="boolean" />
 
         <attr name="gradient_stroke_strokeWidth" format="dimension" />
-        <attr name="gradient_stroke_textColor" format="color" />
+        <attr name="gradient_stroke_textColor" format="reference|color" />
         <attr name="gradient_stroke_join" format="enum">
             <enum name="miter" value="0" />
             <enum name="round" value="1" />
