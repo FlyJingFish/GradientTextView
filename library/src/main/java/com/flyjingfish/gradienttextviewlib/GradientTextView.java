@@ -9,21 +9,21 @@ import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
-import android.graphics.drawable.Drawable;
 import android.text.Layout;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.LeadingMarginSpan;
 import android.util.AttributeSet;
 import android.util.LayoutDirection;
-import android.util.Log;
 
 import androidx.annotation.ColorInt;
+import androidx.annotation.Nullable;
 import androidx.core.text.TextUtilsCompat;
 
 import com.flyjingfish.perfecttextviewlib.PerfectTextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -148,7 +148,7 @@ public class GradientTextView extends PerfectTextView {
         updateColors();
     }
 
-    private void updateColors(){
+    private boolean updateColors(){
         boolean inval = false;
         final int[] drawableState = getDrawableState();
         int color = strokeTextColor.getColorForState(drawableState, 0);
@@ -214,7 +214,10 @@ public class GradientTextView extends PerfectTextView {
         if (inval){
             invalidate();
         }
+        return inval;
     }
+
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         TextPaint textPaint = getPaint();
@@ -222,6 +225,7 @@ public class GradientTextView extends PerfectTextView {
         textPaint.setStrokeWidth(strokeWidth);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setStrokeJoin(strokeJoin);
+        LinearGradient linearGradient;
         if (gradientStrokeColor){
             float currentAngle = strokeAngle;
             if (strokeRtlAngle && isRtl){
@@ -229,13 +233,13 @@ public class GradientTextView extends PerfectTextView {
             }
             float[] xy = getAngleXY(currentAngle);
 
-            @SuppressLint("DrawAllocation") LinearGradient linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientStrokeColors, gradientStrokePositions, Shader.TileMode.CLAMP);
-            textPaint.setShader(linearGradient);
+            linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientStrokeColors, gradientStrokePositions, Shader.TileMode.CLAMP);
         }else {
-            @SuppressLint("DrawAllocation") LinearGradient linearGradient = new LinearGradient(0, 0,getWidth(),getHeight(),  new int[]{strokeTextColor,strokeTextColor}, null, Shader.TileMode.CLAMP);
-            textPaint.setShader(linearGradient);
+            linearGradient = new LinearGradient(0, 0,getWidth(),getHeight(),  new int[]{curStrokeTextColor,curStrokeTextColor}, null, Shader.TileMode.CLAMP);
         }
+        textPaint.setShader(linearGradient);
         super.onDraw(canvas);
+
         textPaint.setStrokeWidth(0);
         textPaint.setStyle(oldStyle);
         if (gradientColor){
@@ -245,11 +249,11 @@ public class GradientTextView extends PerfectTextView {
             }
             float[] xy = getAngleXY(currentAngle);
 
-            @SuppressLint("DrawAllocation") LinearGradient linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientColors, gradientPositions, Shader.TileMode.CLAMP);
-            getPaint().setShader(linearGradient);
+            linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientColors, gradientPositions, Shader.TileMode.CLAMP);
         }else {
-            getPaint().setShader(null);
+            linearGradient = null;
         }
+        textPaint.setShader(linearGradient);
         super.onDraw(canvas);
 
     }
@@ -318,13 +322,41 @@ public class GradientTextView extends PerfectTextView {
         return gradientStrokeColors;
     }
 
-    public void setGradientStrokeColors(int[] gradientStrokeColors) {
-        this.gradientStrokeColors = gradientStrokeColors;
-        gradientStrokeColor = gradientStrokeColors != null;
-        if (gradientStrokePositions != null && gradientStrokeColors != null && gradientStrokeColors.length != gradientStrokePositions.length){
-            this.gradientStrokePositions = null;
+    public List<ColorStateList> getGradientStrokeColorStates() {
+        return gradientStrokeColorStates;
+    }
+
+    public void setGradientStrokeColors(@Nullable @ColorInt int[] gradientStrokeColors) {
+        ColorStateList[] colorStateLists;
+        if (gradientStrokeColors != null){
+            colorStateLists = new ColorStateList[gradientStrokeColors.length];
+            for (int i = 0; i < gradientStrokeColors.length; i++) {
+                colorStateLists[i] = ColorStateList.valueOf(gradientStrokeColors[i]);
+            }
+        }else {
+            colorStateLists = null;
         }
-        invalidate();
+        setGradientStrokeColors(colorStateLists);
+    }
+
+    public void setGradientStrokeColors(@Nullable ColorStateList[] colorStateLists) {
+        gradientStrokeColorStates.clear();
+        if (colorStateLists != null){
+            gradientStrokeColorStates.addAll(Arrays.asList(colorStateLists));
+            if (gradientStrokeColorStates.size() == 1){
+                gradientStrokeColorStates.add(ColorStateList.valueOf(Color.TRANSPARENT));
+            }
+            gradientStrokeColor = gradientStrokeColorStates.size() > 0;
+            if (gradientStrokePositions != null && gradientStrokeColorStates.size() != gradientStrokePositions.length){
+                this.gradientStrokePositions = null;
+            }
+            updateColors();
+        }else {
+            gradientStrokeColor = false;
+            if (!updateColors()){
+                invalidate();
+            }
+        }
     }
 
     public float[] getGradientStrokePositions() {
@@ -341,12 +373,40 @@ public class GradientTextView extends PerfectTextView {
         return gradientColors;
     }
 
-    public void setGradientColors(int[] gradientColors) {
-        this.gradientColors = gradientColors;
-        if (gradientPositions != null && gradientColors != null && gradientColors.length != gradientPositions.length){
-            this.gradientPositions = null;
+    public List<ColorStateList> getGradientColorStates() {
+        return gradientColorStates;
+    }
+    public void setGradientColors(@Nullable @ColorInt int[] gradientColors) {
+        ColorStateList[] colorStateLists;
+        if (gradientColors != null){
+            colorStateLists = new ColorStateList[gradientColors.length];
+            for (int i = 0; i < gradientColors.length; i++) {
+                colorStateLists[i] = ColorStateList.valueOf(gradientColors[i]);
+            }
+        }else {
+            colorStateLists = null;
         }
-        invalidate();
+        setGradientColors(colorStateLists);
+    }
+
+    public void setGradientColors(@Nullable ColorStateList[] colorStateLists) {
+        gradientColorStates.clear();
+        if (colorStateLists != null){
+            gradientColorStates.addAll(Arrays.asList(colorStateLists));
+            if (gradientColorStates.size() == 1){
+                gradientColorStates.add(ColorStateList.valueOf(Color.TRANSPARENT));
+            }
+            gradientStrokeColor = gradientColorStates.size() > 0;
+            if (gradientPositions != null && gradientColorStates.size() != gradientPositions.length){
+                this.gradientPositions = null;
+            }
+            updateColors();
+        }else {
+            gradientStrokeColor = false;
+            if (!updateColors()){
+                invalidate();
+            }
+        }
     }
 
     public float[] getGradientPositions() {
@@ -416,6 +476,18 @@ public class GradientTextView extends PerfectTextView {
     }
 
     @Override
+    public void setTextColor(int color) {
+        gradientColor = false;
+        super.setTextColor(color);
+    }
+
+    @Override
+    public void setTextColor(ColorStateList colors) {
+        gradientColor = false;
+        super.setTextColor(colors);
+    }
+
+    @Override
     public void setText(CharSequence text, BufferType type) {
         if (strokeWidth > 0){
             text = createIndentedText(text, strokeWidth/2, strokeWidth/2);
@@ -428,5 +500,6 @@ public class GradientTextView extends PerfectTextView {
      */
     public void setStrokeJoin(Paint.Join join){
         strokeJoin = join;
+        invalidate();
     }
 }
