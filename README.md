@@ -22,6 +22,8 @@
 
 3，同时支持以上两点混合
 
+4，所有颜色支持 ColorStateList 
+
 
 ## 第一步，根目录build.gradle
 
