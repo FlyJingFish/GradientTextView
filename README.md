@@ -94,21 +94,21 @@
 
 ### 属性一览
 
-| attr                        |     format      |                          description                           |
-|-----------------------------|:---------------:|:--------------------------------------------------------------:|
-| gradient_startColor         | color/reference |                          前景字体渐变颜色开始颜色                          |
-| gradient_centerColor        | color/reference |                          前景字体渐变颜色中心颜色                          |
-| gradient_endColor           | color/reference |                          前景字体渐变颜色结束颜色                          |
-| gradient_angle              |      float      |                          前景字体渐变颜色开始角度                          |
-| gradient_rtl_angle          |     boolean     |                    前景字体渐变颜色开始角度是否支持镜像Rtl适配                     |
-| gradient_stroke_startColor  | color/reference |                          字体粗边渐变颜色开始颜色                          |
-| gradient_stroke_centerColor | color/reference |                          字体粗边渐变颜色中心颜色                          |
-| gradient_stroke_endColor    | color/reference |                          字体粗边渐变颜色结束颜色                          |
-| gradient_stroke_angle       |      float      |                          字体粗边渐变颜色开始角度                          |
-| gradient_stroke_rtl_angle   |     boolean     |                    字体粗边渐变颜色开始角度是否支持镜像Rtl适配                     |
-| gradient_stroke_strokeWidth |    dimension    |                            字体粗边画笔宽度                            |
-| gradient_stroke_textColor   | color/reference |             字体粗边颜色（设置粗边渐变色之后此属性无效,设置此属性后粗边渐变色也失效）              |
-| gradient_stroke_join        |      enum       | 字体粗边样式 round/bevel/miter 具体效果自行尝试（不建议使用miter，因为目前发现部分英文字母出现尖头） |
+| attr                        |     format      |              description              |
+|-----------------------------|:---------------:|:-------------------------------------:|
+| gradient_startColor         | color/reference |             前景字体渐变颜色开始颜色              |
+| gradient_centerColor        | color/reference |             前景字体渐变颜色中心颜色              |
+| gradient_endColor           | color/reference |             前景字体渐变颜色结束颜色              |
+| gradient_angle              |      float      |             前景字体渐变颜色开始角度              |
+| gradient_rtl_angle          |     boolean     |        前景字体渐变颜色开始角度是否支持镜像Rtl适配        |
+| gradient_stroke_startColor  | color/reference |             字体粗边渐变颜色开始颜色              |
+| gradient_stroke_centerColor | color/reference |             字体粗边渐变颜色中心颜色              |
+| gradient_stroke_endColor    | color/reference |             字体粗边渐变颜色结束颜色              |
+| gradient_stroke_angle       |      float      |             字体粗边渐变颜色开始角度              |
+| gradient_stroke_rtl_angle   |     boolean     |        字体粗边渐变颜色开始角度是否支持镜像Rtl适配        |
+| gradient_stroke_strokeWidth |    dimension    |               字体粗边画笔宽度                |
+| gradient_stroke_textColor   | color/reference | 字体粗边颜色（设置粗边渐变色之后此属性无效,设置此属性后粗边渐变色也失效） |
+| gradient_stroke_join        |      enum       |   字体粗边样式 round/bevel/miter 具体效果自行尝试   |
 
 
 

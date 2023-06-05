@@ -45,6 +45,7 @@ public class GradientTextView extends PerfectTextView {
     private ColorStateList strokeTextColor;
     private int curStrokeTextColor;
     private Paint.Join strokeJoin;
+    private Float defaultStrokeMiter;
 
     public GradientTextView(Context context) {
         this(context, null);
@@ -225,6 +226,14 @@ public class GradientTextView extends PerfectTextView {
         textPaint.setStrokeWidth(strokeWidth);
         textPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         textPaint.setStrokeJoin(strokeJoin);
+        if (defaultStrokeMiter == null){
+            defaultStrokeMiter = textPaint.getStrokeMiter();
+        }
+        if (strokeJoin == Paint.Join.MITER){
+            textPaint.setStrokeMiter(2.6f);
+        }else {
+            textPaint.setStrokeMiter(defaultStrokeMiter);
+        }
         LinearGradient linearGradient;
         if (gradientStrokeColor){
             float currentAngle = strokeAngle;
