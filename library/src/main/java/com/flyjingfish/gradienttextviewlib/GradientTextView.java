@@ -374,7 +374,6 @@ public class GradientTextView extends PerfectTextView {
 
     public void setGradientStrokePositions(float[] gradientStrokePositions) {
         this.gradientStrokePositions = gradientStrokePositions;
-
         invalidate();
     }
 
@@ -411,7 +410,7 @@ public class GradientTextView extends PerfectTextView {
             }
             updateColors();
         }else {
-            gradientStrokeColor = false;
+            gradientColor = false;
             if (!updateColors()){
                 invalidate();
             }
@@ -424,7 +423,6 @@ public class GradientTextView extends PerfectTextView {
 
     public void setGradientPositions(float[] gradientPositions) {
         this.gradientPositions = gradientPositions;
-        gradientColor = gradientPositions != null;
         invalidate();
     }
 
