@@ -235,7 +235,7 @@ public class GradientTextView extends PerfectTextView {
             textPaint.setStrokeMiter(defaultStrokeMiter);
         }
         LinearGradient linearGradient;
-        if (gradientStrokeColor){
+        if (gradientStrokeColor && gradientStrokeColors != null && gradientStrokeColors.length > 1){
             float currentAngle = strokeAngle;
             if (strokeRtlAngle && isRtl){
                 currentAngle = - strokeAngle;
@@ -251,7 +251,7 @@ public class GradientTextView extends PerfectTextView {
 
         textPaint.setStrokeWidth(0);
         textPaint.setStyle(oldStyle);
-        if (gradientColor){
+        if (gradientColor && gradientColors != null && gradientColors.length > 1){
             float currentAngle = angle;
             if (rtlAngle && isRtl){
                 currentAngle = - angle;
@@ -405,7 +405,7 @@ public class GradientTextView extends PerfectTextView {
             if (gradientColorStates.size() == 1){
                 gradientColorStates.add(ColorStateList.valueOf(Color.TRANSPARENT));
             }
-            gradientStrokeColor = gradientColorStates.size() > 0;
+            gradientColor = gradientColorStates.size() > 0;
             if (gradientPositions != null && gradientColorStates.size() != gradientPositions.length){
                 this.gradientPositions = null;
             }
