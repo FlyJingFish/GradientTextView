@@ -129,17 +129,14 @@ public class GradientTextView extends PerfectTextView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        int widthMode = MeasureSpec.getMode(widthMeasureSpec);
         if (widthMode == MeasureSpec.AT_MOST && strokeWidth > 0){
             int measureWidth = getMeasuredWidth();
             int width = MeasureSpec.getSize(widthMeasureSpec);
             if (measureWidth < width){
                 int measureHeight = getMeasuredHeight();
-//                int height = MeasureSpec.getSize(heightMeasureSpec);
-                int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-                int newWidth = MeasureSpec.makeMeasureSpec(measureWidth+Math.min(strokeWidth/2,width-measureWidth), widthMode);
-                setMeasuredDimension(newWidth,MeasureSpec.makeMeasureSpec(measureHeight, heightMode));
+                setMeasuredDimension(measureWidth+Math.min(strokeWidth/2,width-measureWidth),measureHeight);
             }
         }
     }
