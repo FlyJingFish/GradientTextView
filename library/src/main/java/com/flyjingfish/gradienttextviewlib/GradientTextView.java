@@ -46,6 +46,8 @@ public class GradientTextView extends PerfectTextView {
     private int curStrokeTextColor;
     private Paint.Join strokeJoin;
     private Float defaultStrokeMiter;
+    private Shader.TileMode tileMode = Shader.TileMode.CLAMP;
+    private OnDrawGradientListener onDrawGradientListener;
 
     public GradientTextView(Context context) {
         this(context, null);
@@ -239,9 +241,12 @@ public class GradientTextView extends PerfectTextView {
             }
             float[] xy = getAngleXY(currentAngle);
 
-            linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientStrokeColors, gradientStrokePositions, Shader.TileMode.CLAMP);
+            linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientStrokeColors, gradientStrokePositions, tileMode);
         }else {
-            linearGradient = new LinearGradient(0, 0,getWidth(),getHeight(),  new int[]{curStrokeTextColor,curStrokeTextColor}, null, Shader.TileMode.CLAMP);
+            linearGradient = new LinearGradient(0, 0,getWidth(),getHeight(),  new int[]{curStrokeTextColor,curStrokeTextColor}, null, tileMode);
+        }
+        if (onDrawGradientListener != null){
+            onDrawGradientListener.onStrokeGradient(linearGradient);
         }
         textPaint.setShader(linearGradient);
         super.onDraw(canvas);
@@ -255,9 +260,12 @@ public class GradientTextView extends PerfectTextView {
             }
             float[] xy = getAngleXY(currentAngle);
 
-            linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientColors, gradientPositions, Shader.TileMode.CLAMP);
+            linearGradient = new LinearGradient(xy[0], xy[1], xy[2], xy[3],  gradientColors, gradientPositions, tileMode);
         }else {
             linearGradient = null;
+        }
+        if (onDrawGradientListener != null){
+            onDrawGradientListener.onGradient(linearGradient);
         }
         textPaint.setShader(linearGradient);
         super.onDraw(canvas);
@@ -488,5 +496,34 @@ public class GradientTextView extends PerfectTextView {
     public void setStrokeJoin(Paint.Join join){
         strokeJoin = join;
         invalidate();
+    }
+
+    /**
+     * 设置渐变色 {@link Shader.TileMode}
+     * @param tileMode
+     */
+    public void setTileMode(Shader.TileMode tileMode){
+        this.tileMode = tileMode;
+    }
+
+    public interface OnDrawGradientListener{
+        /**
+         * 回调渐变色粗边的 {@link LinearGradient}
+         * @param gradient 渐变色 {@link LinearGradient}
+         */
+        void onStrokeGradient(LinearGradient gradient);
+        /**
+         * 回调渐变色字体的 {@link LinearGradient}
+         * @param gradient 渐变色 {@link LinearGradient}
+         */
+        void onGradient(@Nullable LinearGradient gradient);
+    }
+
+    /**
+     * 设置绘制渐变色时的监听，在绘制之前回调渐变色 {@link LinearGradient} ,给你预留设置渐变参数的机会
+     * @param onDrawGradientListener
+     */
+    public void setOnDrawGradientListener(OnDrawGradientListener onDrawGradientListener) {
+        this.onDrawGradientListener = onDrawGradientListener;
     }
 }
